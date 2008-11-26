@@ -81,6 +81,7 @@ module LeechFM
   
 end
 
+
 if ARGV.length == 3
   station = LeechFM::Station.new ARGV[0], ARGV[1]
   station.adjust ARGV[2]
