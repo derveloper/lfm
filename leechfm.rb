@@ -13,7 +13,7 @@ module LeechFM
     def initialize(username, password)
       puts "logging in as #{username}"
       password = MD5.hexdigest(password)
-      handshakeUri = "http://ws.audioscrobbler.com/radio/handshake.php?version=1.3.1.1&platform=win32&username=#{@username}&passwordmd5=#{@password}&language=de&player=LFM"
+      handshakeUri = "http://ws.audioscrobbler.com/radio/handshake.php?version=1.3.1.1&platform=win32&username=#{username}&passwordmd5=#{password}&language=de&player=LFM"
       handshakeUri = URI.parse(handshakeUri)
       @handshakeResponse = Net::HTTP.get handshakeUri
     end
