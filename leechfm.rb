@@ -6,6 +6,7 @@ require 'xspf'
 require 'id3lib'
 require 'ftools'
 
+
 module LeechFM
   
   class Station
@@ -58,23 +59,28 @@ module LeechFM
       else
         while do_loop
           self.tracks.each do |track|
-            outFile = "#{track.creator} - #{track.title}.mp3"
-            next if File.exists?(outFile)
-            puts "downloading #{outFile}"
-            #`wget -O "#{outFile}" #{track.location}`
-            mp3Response = Net::HTTP.get URI.parse(track.location)
-            mp3File = open(outFile,'w')
-            mp3File << mp3Response
-            mp3File.close
-            tag = ID3Lib::Tag.new(outFile)
-            tag.artist = track.creator
-            tag.title = track.title
-            unless track.album.nil?
-              tag.album = track.album
-            else
-             tag.album = "Unknown Album"
+            begin
+              outFile = "#{track.creator} - #{track.title}.mp3"
+              next if File.exists?(outFile)
+              puts "downloading #{outFile}"
+              #`wget -O "#{outFile}" #{track.location}`
+              mp3Response = Net::HTTP.get URI.parse(track.location)
+              mp3File = open(outFile,'w')
+              mp3File << mp3Response
+              mp3File.close
+              tag = ID3Lib::Tag.new(outFile)
+              tag.artist = track.creator
+              tag.title = track.title
+              unless track.album.nil?
+                tag.album = track.album
+              else
+               tag.album = "Unknown Album"
+              end
+              tag.update!
+              puts "finished #{outFile}"
+            rescue
+              puts "something went wrong!"
             end
-            tag.update!
           end
         end
       end
