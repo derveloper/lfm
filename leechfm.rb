@@ -14,7 +14,7 @@ module LeechFM
     def initialize(username, password)
       puts "logging in as #{username}"
       password = MD5.hexdigest(password)
-      handshakeUri = "http://ws.audioscrobbler.com/radio/handshake.php?version=1.3.1.1&platform=win32&username=#{username}&passwordmd5=#{password}&language=de&player=LFM"
+      handshakeUri = "http://ws.audioscrobbler.com/radio/handshake.php?version=1.5.1&platform=win32&username=#{username}&passwordmd5=#{password}&language=de&player=LFM"
       handshakeUri = URI.parse(handshakeUri)
       @handshakeResponse = Net::HTTP.get handshakeUri
     end
@@ -39,7 +39,7 @@ module LeechFM
     end
     
     def xspf
-      xspfUri = "http://#{self.base_url}#{self.base_path}/xspf.php?sk=#{self.session}&discovery=0&desktop=1.3.1.1"
+      xspfUri = "http://#{self.base_url}#{self.base_path}/xspf.php?sk=#{self.session}&discovery=0&desktop=1.5.1"
       xspfUri = URI.parse(xspfUri)
       xspfResponse = Net::HTTP.get xspfUri
       xspfResponse
@@ -63,7 +63,7 @@ module LeechFM
               outFile = "#{track.creator} - #{track.title}.mp3"
               next if File.exists?(outFile)
               puts "downloading #{outFile}"
-              #`wget -O "#{outFile}" #{track.location}`
+              `/opt/local/bin/wget -O "#{outFile}" #{track.location}`
               mp3Response = Net::HTTP.get URI.parse(track.location)
               mp3File = open(outFile,'w')
               mp3File << mp3Response
