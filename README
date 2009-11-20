@@ -1,1 +1,16 @@
 Usage: leechfm <username> <password> <stationuri>
+
+Possible station URIs:
+lastfm://user/$username/personal
+lastfm://user/$username/playlist
+lastfm://artist/$artistname or lastfm://artist/$artistname/similarartists
+lastfm://globaltags/$tag
+lastfm://group/$groupname
+lastfm://user/$username/neighbours
+lastfm://user/$username/recommended/100
+lastfm://play/tracks/$trackid,$trackid,$trackid
+
+
+Example:
+
+ruby leechfm.rb "fooUser" "barPass" "lastfm://user/fooUser/personal"
