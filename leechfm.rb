@@ -63,11 +63,8 @@ module LeechFM
               outFile = "#{track.creator} - #{track.title}.mp3"
               next if File.exists?(outFile)
               puts "downloading #{outFile}"
-              `/opt/local/bin/wget -O "#{outFile}" #{track.location}`
-              mp3Response = Net::HTTP.get URI.parse(track.location)
-              mp3File = open(outFile,'w')
-              mp3File << mp3Response
-              mp3File.close
+              wget = `which wget`
+              `\`which wget\` -O "#{outFile}" #{track.location}`
               tag = ID3Lib::Tag.new(outFile)
               tag.artist = track.creator
               tag.title = track.title
